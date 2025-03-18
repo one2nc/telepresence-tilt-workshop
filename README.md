@@ -138,7 +138,7 @@ You can find all the requests in the Postman Collection [here](./Tilt-n-Telepres
 If you're sure you want to deploy there, add:
 	allow_k8s_contexts('_`name_of_k8s_context`_')
 to your Tiltfile. Otherwise, switch k8s contexts and restart Tilt.  
-Just modify the file name `Tiltfile` by adding the following lines at the beginning of your `Tiltfile`.  
+Just modify the file named `Tiltfile` at the root directory of every service by adding the following lines at the beginning of your `Tiltfile`.  
 allow_k8s_contexts('_`name_of_k8s_context`_')
     
    ```bash

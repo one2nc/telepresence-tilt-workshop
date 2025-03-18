@@ -1,0 +1,628 @@
+{
+	"info": {
+		"_postman_id": "68f2715f-abd3-490a-bd37-fcc0c4ec9fda",
+		"name": "Tilt-n-Telepresence-Demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43163015"
+	},
+	"item": [
+		{
+			"name": "Users Service",
+			"item": [
+				{
+					"name": "User Service HealthCheck",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{USER_SVC_URL}}/healthz",
+							"host": [
+								"{{USER_SVC_URL}}"
+							],
+							"path": [
+								"healthz"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\" : \"hmx098\",\n    \"email\": \"hmisraji07@gmail.com\",\n    \"password\": \"1234242314123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{USER_SVC_URL}}/users",
+							"host": [
+								"{{USER_SVC_URL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"hmisraji07@gmail.com\",\n    \"password\": \"1234242314123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{USER_SVC_URL}}/login",
+							"host": [
+								"{{USER_SVC_URL}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products Service",
+			"item": [
+				{
+					"name": "Product Service HealthCheck",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PRODUCTS_SVC_URL}}/healthz",
+							"host": [
+								"{{PRODUCTS_SVC_URL}}"
+							],
+							"path": [
+								"healthz"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PRODUCTS_SVC_URL}}/products",
+							"host": [
+								"{{PRODUCTS_SVC_URL}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PRODUCTS_SVC_URL}}/products/:id",
+							"host": [
+								"{{PRODUCTS_SVC_URL}}"
+							],
+							"path": [
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "OLJCESPC7Z"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product By Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PRODUCTS_SVC_URL}}/products/category/:category",
+							"host": [
+								"{{PRODUCTS_SVC_URL}}"
+							],
+							"path": [
+								"products",
+								"category",
+								":category"
+							],
+							"variable": [
+								{
+									"key": "category",
+									"value": "tops"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PRODUCTS_SVC_URL}}/products/search/:string",
+							"host": [
+								"{{PRODUCTS_SVC_URL}}"
+							],
+							"path": [
+								"products",
+								"search",
+								":string"
+							],
+							"variable": [
+								{
+									"key": "string",
+									"value": "sunglass"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders Service",
+			"item": [
+				{
+					"name": "Create An Order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": \"6cde8acb-c7e0-420e-8d10-7ada0a190430\",\n    \"product_ids\": [\n        \"OLJCESPC7Z\",\n        \"66VCHSJNUP\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ORDER_SVC_URL}}/orders",
+							"host": [
+								"{{ORDER_SVC_URL}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order from ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": \"6cde8acb-c7e0-420e-8d10-7ada0a190430\",\n    \"product_ids\": [\n        \"OLJCESPC7Z\",\n        \"66VCHSJNUP\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ORDER_SVC_URL}}/orders/:id",
+							"host": [
+								"{{ORDER_SVC_URL}}"
+							],
+							"path": [
+								"orders",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "235b0d5d-b204-4b8f-8270-59a7dedaa6ea"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update an Order's Status",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": \"6cde8acb-c7e0-420e-8d10-7ada0a190430\",\n    \"product_ids\": [\n        \"OLJCESPC7Z\",\n        \"66VCHSJNUP\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ORDER_SVC_URL}}/orders/:id/status?status=pending",
+							"host": [
+								"{{ORDER_SVC_URL}}"
+							],
+							"path": [
+								"orders",
+								":id",
+								"status"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "pending"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "c6ac5704-3a96-4d30-a781-469b9aa4eeb0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Orders Service HealthCheck",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ORDER_SVC_URL}}/healthz",
+							"host": [
+								"{{ORDER_SVC_URL}}"
+							],
+							"path": [
+								"healthz"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payments Service",
+			"item": [
+				{
+					"name": "Payment Service HealthCheck",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Make a Payment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": \"6cde8acb-c7e0-420e-8d10-7ada0a190430\",\n    \"order_id\": \"c6ac5704-3a96-4d30-a781-469b9aa4eeb0\",\n    \"amount\": 100\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PAYMENTS_SVC_URL}}/payments",
+							"host": [
+								"{{PAYMENTS_SVC_URL}}"
+							],
+							"path": [
+								"payments"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API Gateway",
+			"item": [
+				{
+					"name": "Get All Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_GW_SVC_URL}}/api/v1/products",
+							"host": [
+								"{{API_GW_SVC_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Product By Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_GW_SVC_URL}}/api/v1/products/category/:category",
+							"host": [
+								"{{API_GW_SVC_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"category",
+								":category"
+							],
+							"variable": [
+								{
+									"key": "category",
+									"value": "tops"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_GW_SVC_URL}}/api/v1/products/search/:string",
+							"host": [
+								"{{API_GW_SVC_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"search",
+								":string"
+							],
+							"variable": [
+								{
+									"key": "string",
+									"value": "sunglass"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_GW_SVC_URL}}/api/v1/products/:id",
+							"host": [
+								"{{API_GW_SVC_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "L9ECAV7KIM"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create An Order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNmNkZThhY2ItYzdlMC00MjBlLThkMTAtN2FkYTBhMTkwNDMwIn0.7MRRyb8MeWXh0wIN7y_fH91r19aVyhDDEuX7B1-YlLg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"product_ids\": [\"L9ECAV7KIM\", \"OLJCESPC7Z\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_GW_SVC_URL}}/api/v1/order/create",
+							"host": [
+								"{{API_GW_SVC_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Make a Payment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNmNkZThhY2ItYzdlMC00MjBlLThkMTAtN2FkYTBhMTkwNDMwIn0.7MRRyb8MeWXh0wIN7y_fH91r19aVyhDDEuX7B1-YlLg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"order_id\": \"67a06c81-c46c-43d5-a7dd-2f3a1c085132\",\n    \"amount\": 109.08\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_GW_SVC_URL}}/api/v1/payments/pay",
+							"host": [
+								"{{API_GW_SVC_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"payments",
+								"pay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Payment Information",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNmNkZThhY2ItYzdlMC00MjBlLThkMTAtN2FkYTBhMTkwNDMwIn0.7MRRyb8MeWXh0wIN7y_fH91r19aVyhDDEuX7B1-YlLg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_GW_SVC_URL}}/api/v1/payments/status/:id",
+							"host": [
+								"{{API_GW_SVC_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"payments",
+								"status",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "7084ae0a-d386-4ecd-913d-17c72b408c2c"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "USER_SVC_URL",
+			"value": "http://user-svc.api",
+			"type": "string"
+		},
+		{
+			"key": "ORDER_SVC_URL",
+			"value": "http://orders-svc.api",
+			"type": "string"
+		},
+		{
+			"key": "PAYMENTS_SVC_URL",
+			"value": "http://payments-svc.api",
+			"type": "string"
+		},
+		{
+			"key": "API_GW_SVC_URL",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "PRODUCTS_SVC_URL",
+			"value": "http://product-svc.api",
+			"type": "string"
+		}
+	]
+}

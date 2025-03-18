@@ -23,7 +23,7 @@ This demo has 4 dumb services to quickly demo tilt and telepresence on Kubernete
 
 ## User Flow for our Services
 You can find all the requests in the Postman Collection [here](./Tilt-n-Telepresence-Demo.postman_collection.json).
-1. User Signup via  (if not registered already).
+1. User Signup via Users Service (if not registered already).
 2. Obtain a JWT Token. 
 3. Search For Products from API Gateway (JWT Token not required)
    - User can view all products from `/api/v1/products`

@@ -1,0 +1,15 @@
+[submodule "telepresence-demo-user-service"]
+	path = telepresence-demo-user-service
+	url = ssh://git@github.com/one2nc/telepresence-demo-user-service.git
+[submodule "telepresence-demo-product-service"]
+	path = telepresence-demo-product-service
+	url = ssh://git@github.com/one2nc/telepresence-demo-product-service.git
+[submodule "telepresence-demo-orders-service"]
+	path = telepresence-demo-orders-service
+	url = ssh://git@github.com/one2nc/telepresence-demo-orders-service.git
+[submodule "telepresence-demo-payments-service"]
+	path = telepresence-demo-payments-service
+	url = ssh://git@github.com/one2nc/telepresence-demo-payments-service.git
+[submodule "telepresence-demo-api-gateway"]
+	path = telepresence-demo-api-gateway
+	url = ssh://git@github.com/one2nc/telepresence-demo-api-gateway.git

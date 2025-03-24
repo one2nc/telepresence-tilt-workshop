@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "68f2715f-abd3-490a-bd37-fcc0c4ec9fda",
+		"_postman_id": "56385890-b371-44fb-8207-220e84e368af",
 		"name": "Tilt-n-Telepresence-Demo",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "43163015"
+		"_exporter_id": "42218256"
 	},
 	"item": [
 		{
@@ -28,12 +28,28 @@
 				},
 				{
 					"name": "Create User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"jsonData = JSON.parse(pm.response.text())",
+									"pm.environment.unset(\"email\");",
+									"pm.collectionVariables.set(\"email\", jsonData.email);",
+									"pm.environment.unset(\"user_id\");",
+									"pm.collectionVariables.set(\"user_id\", jsonData.user_id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\" : \"hmx098\",\n    \"email\": \"hmisraji07@gmail.com\",\n    \"password\": \"1234242314123\"\n}",
+							"raw": "{\n    \"name\" : \"jaideep_khandelwal\",\n    \"email\": \"jaideep_k+1@boosterconf.com\",\n    \"password\": \"{{PASSWORD}}\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -54,12 +70,26 @@
 				},
 				{
 					"name": "User Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"jsonData = JSON.parse(pm.response.text())",
+									"pm.environment.unset(\"access_token\");",
+									"pm.collectionVariables.set(\"access_token\", jsonData.access_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"hmisraji07@gmail.com\",\n    \"password\": \"1234242314123\"\n}",
+							"raw": "{\n    \"email\": \"{{email}}\",\n    \"password\": \"{{PASSWORD}}\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -199,11 +229,21 @@
 				{
 					"name": "Create An Order",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"user_id\": \"6cde8acb-c7e0-420e-8d10-7ada0a190430\",\n    \"product_ids\": [\n        \"OLJCESPC7Z\",\n        \"66VCHSJNUP\"\n    ]\n}",
+							"raw": "{\n    \"user_id\": \"{{user_id}}\",\n    \"product_ids\": [\n        \"OLJCESPC7Z\",\n        \"66VCHSJNUP\"\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -228,6 +268,16 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -324,7 +374,10 @@
 					"name": "Payment Service HealthCheck",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": ""
+						}
 					},
 					"response": []
 				},
@@ -460,13 +513,30 @@
 				},
 				{
 					"name": "Create An Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"jsonData = JSON.parse(pm.response.text())",
+									"pm.environment.unset(\"order_id\");",
+									"pm.collectionVariables.set(\"order_id\", jsonData.order.id);",
+									"",
+									"pm.environment.unset(\"amount\")",
+									"pm.collectionVariables.set(\"amount\",jsonData.amount)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNmNkZThhY2ItYzdlMC00MjBlLThkMTAtN2FkYTBhMTkwNDMwIn0.7MRRyb8MeWXh0wIN7y_fH91r19aVyhDDEuX7B1-YlLg",
+									"value": "{{access_token}}",
 									"type": "string"
 								}
 							]
@@ -505,7 +575,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNmNkZThhY2ItYzdlMC00MjBlLThkMTAtN2FkYTBhMTkwNDMwIn0.7MRRyb8MeWXh0wIN7y_fH91r19aVyhDDEuX7B1-YlLg",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMzMzNzk2ZWMtODk4YS00YTVhLTk5MjktMGI2YjNkNWViMjE0In0.JoLjrsXd_3h5N9uOMvStVS1r238uIQI6scybFh4onFg",
 									"type": "string"
 								}
 							]
@@ -514,7 +584,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"order_id\": \"67a06c81-c46c-43d5-a7dd-2f3a1c085132\",\n    \"amount\": 109.08\n}",
+							"raw": "{\n    \"order_id\": \"{{order_id}}\",\n    \"amount\": {{amount}}\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -616,13 +686,38 @@
 		},
 		{
 			"key": "API_GW_SVC_URL",
-			"value": "http://localhost:8080",
+			"value": "http://api-gateway.api",
 			"type": "string"
 		},
 		{
 			"key": "PRODUCTS_SVC_URL",
 			"value": "http://product-svc.api",
 			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": ""
+		},
+		{
+			"key": "PASSWORD",
+			"value": "helloboosterconf",
+			"type": "string"
+		},
+		{
+			"key": "email",
+			"value": ""
+		},
+		{
+			"key": "user_id",
+			"value": ""
+		},
+		{
+			"key": "order_id",
+			"value": ""
+		},
+		{
+			"key": "amount",
+			"value": ""
 		}
 	]
 }

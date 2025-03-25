@@ -174,35 +174,48 @@ make deploy-dev
 
 # [Part 2] Developing a Service with Telepresence  
 
-## Step 0: Install Telepresence and Connect to Your Cluster  
+### 1. Install Telepresence and Connect to Your Cluster
 
-1. **Install the Traffic Manager on the Cluster**  
+```bash
+ # Install the Open Source
+ brew install telepresenceio/telepresence/telepresence-oss
+```
+
+You can choose to install the telepresence from Ambassador Cloud
+``` bash
+# Install the SaaS offering from Ambassador Cloud
+brew install datawire/blackbird/telepresence
+```
+
+**Install the Traffic Manager on the Cluster**
+
    ```bash
    telepresence helm install
-   ```  
-2. **Connect to the Cluster**  
+   ``` 
+**Connect to the Cluster** 
+
    ```bash
    telepresence connect --namespace=api  
    ```  
    > **Note**: You can replace `api` with a different namespace if needed. For this demo, we will use `api` as our services are deployed there.  
 
-## Step 1: Start Developing  
-
-1. We will develop the following services using **Telepresence**. Navigate to the appropriate service directory:  
+### 2. Start Developing
+- We will develop the following services using **Telepresence**. Navigate to the appropriate service directory: 
 
    | Service          | Directory |  
    |------------------|------------------------------------------------|  
    | Payments Service | [telepresence-demo-payments-service](./telepresence-demo-payments-service/) |  
    | API Gateway      | [telepresence-demo-api-gateway](./telepresence-demo-api-gateway/) |  
 
-2. **Set Up a Python Virtual Environment**  
+- **Set Up a Python Virtual Environment**
    ```bash
    python3 -m venv venv
    source venv/bin/activate
    make install-dev
    ```  
-3. You can now directly modify the codebase—no additional setup is required.  
-4. **Run the Service Locally (Development Mode)**  
+- You can now directly modify the codebase—no additional setup is required.
+
+- **Run the Service Locally (Development Mode)**
    ```bash
    cd ./src/
    uvicorn app:app --host 0.0.0.0 --port 8080 --reload  

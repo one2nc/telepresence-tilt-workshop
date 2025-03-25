@@ -1,6 +1,6 @@
 # Welcome to the Tilt and Telepresence Workshop
 
-This demo includes four microservices designed to demonstrate the usage of **Tilt** and **Telepresence** on Kubernetes.
+This demo includes four microservices designed to demonstrate the usage of **Tilt**, **Telepresence** and **ArgoCD (Preview Environments)** on Kubernetes.
 
 ## Services
 ```mermaid
@@ -99,17 +99,15 @@ GET /api/v1/products/:product_id       # Get details of a specific product
   }
   ```
 
-
-
-
 # Flow of the workshop
 ## Pre-requisites
-1. A remote k8s cluster. (EKS, GKE, etc.)
-2. Docker installed.
-3. Linux/Mac preferred.
-4. Install Tilt.
-5. Install Telepresence.
-6. Setup Postman.
+1. A remote k8s cluster. (EKS, GKE, Minikube, etc.)
+2. Install ArgoCD for preview environments.
+3. Docker installed.
+4. Linux/Mac preferred.
+5. Install Tilt.
+6. Install Telepresence.
+7. Setup Postman.
 
 ## Flow
 1. Develop the User Service using Tilt and run it inside the Kubernetes cluster.
@@ -119,9 +117,10 @@ GET /api/v1/products/:product_id       # Get details of a specific product
 5. Develop the Payments Service locally using Telepresence to access dependent services inside the cluster.
 6. Deploy the Payments Service to the cluster.
 7. Repeat the same process as the Payments Service to develop and deploy the API Gateway Service using Telepresence.
+8. For the preview environments make code changes on the 
 
 
-# Developing Services with Tilt  
+# [Part 1] Developing Services with Tilt  
 
 ### 1. Navigate to the Service Directory  
 We will use **Tilt** to develop the following services:  
@@ -173,7 +172,7 @@ Once development is complete, deploy the service to the cluster:
 make deploy-dev
 ```  
 
-# Developing a Service with Telepresence  
+# [Part 3] Developing a Service with Telepresence  
 
 ## Step 0: Install Telepresence and Connect to Your Cluster  
 
@@ -217,7 +216,7 @@ make deploy-dev
 ```  
 
 
-# **Scenario: Telepresence Intercept Demo**  
+# [Part 2] Scenario: Telepresence Intercept Demo
 
 ## **Problem Statement**  
 1. The **Payments Service** currently does not verify whether an order has already been paid, which may lead to **duplicate payments** for the same order.  
@@ -335,3 +334,136 @@ make deploy-dev
    make deploy-dev
    ```
 
+# [Part 4] PR based Preview Environments
+
+PR based preview environments are used to test the changes before merging them into the main branch. It is used to test new features before they are released. They are especially useful to Product teams, and sales team to demo a particular feature.
+
+We will do the PR based preview environments on our local machine to avoid the hassle of getting a new domain. We will use DNSMASQ on our local machine to create a subdomain for each PR. 
+
+## Step 1: Setup local K8S Cluster and ArgoCD
+
+### On Mac
+1. Install Docker Desktop
+2. Enable Kubernetes in Docker Desktop
+3. Install ArgoCD
+
+   ```bash
+    kubectl create namespace argocd
+    kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+   ```
+3. Install Nginx Ingress Controller 
+
+   ```bash
+   helm upgrade --install ingress-nginx ingress-nginx 
+   --repo https://kubernetes.github.io/ingress-nginx \
+   --namespace ingress-nginx --create-namespace
+   ```
+
+4. Install DNSMASQ
+   
+   ```bash
+   brew install dnsmasq
+   ```
+
+   ```bash
+   # Create config directory
+   mkdir -pv $(brew --prefix)/etc/
+   ```
+
+   ```bash
+   sudo brew services start dnsmasq
+   ```
+
+5. Configure DNSMASQ
+
+   ```bash
+   # Setup *.example.com
+   echo 'address=/.example.com/127.0.0.1' >> $(brew --prefix)/etc/dnsmasq.conf
+   ```
+ 
+   ```bash
+   sudo mkdir -v /etc/resolver
+   sudo bash -c 'echo "nameserver 127.0.0.1" > /etc/resolver/test'
+   ```
+
+### On Linux
+1. Install Minikube
+2. Install ArgoCD
+
+   ```bash
+    kubectl create namespace argocd
+    kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+   ```
+3. Install Nginx Ingress Controller
+
+   ```bash
+   minikube addons enable ingress
+   ```
+4. Install DNSMASQ
+   Depending on the distribution you are using, you can install DNSMASQ using the package manager.
+
+5. Configure DNSMASQ
+
+   ```bash
+   # Setup *.example.com
+   echo 'address=/.example.com/<minikube-ip-should be interface IP of host machine>' >> /etc/dnsmasq.conf
+   ``` 
+
+## Step 2: Create an ApplicationSet in ArgoCD
+
+We will take the example of the Product Service. We will create a new branch and make some changes to the Product Service. We will then create a PR and deploy the changes to the preview environment.
+
+Before we start, we need to create an ApplicationSet in ArgoCD. This will create a new application for each PR.
+
+We have already create the YAML manifest to create the ApplicationSet. You can find under `telepresence-demo-product-service/k8s/argocd/generators/product.yaml`
+
+```bash
+kubectl apply -f telepresence-demo-product-service/k8s/preview-env/generators/product.yaml -n argocd
+```
+You also need to create a secret for the GitHub token. You can create the secret using the following command.
+Edit the secret.yaml and add your GitHub token.
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: github-token
+stringData:
+  token: `<add your github token>`
+```
+
+```bash 
+kubectl apply -f telepresence-demo-product-service/k8s/preview-env/secret.yaml -n argocd
+```
+## Step 3: Let's create a PR based preview environment
+
+Make a code change in the Product Service. Let's change the following function in the `app.py` file.
+
+```python
+@app.get("/healthz", status_code=201)
+async def health():
+    return {"message": "Hello from Products Service!"}
+```
+
+You can try changing the message. Add the changes to the git and create a new branch.
+
+```python
+@app.get("/healthz", status_code=201)
+async def health():
+    return {"message": "Hello from Products Service! This is a PR based preview environment!"}
+```
+
+Let's call the branch `product-message-change`. Push the changes to the branch and open a PR.
+Add the label `preview` to the PR. This will trigger the ApplicationSet to create a new application for the PR in a new namespace
+
+## Step 4: Access the PR based preview environmentG
+
+You can access the PR based preview environment using the following URL.
+
+```
+http://product-<branch-name>-<pr-number>.example.com/healthz
+```
+
+## Step 5: Clean up
+
+Merge or close the PR to delete the preview environment.

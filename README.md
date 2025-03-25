@@ -172,7 +172,7 @@ Once development is complete, deploy the service to the cluster:
 make deploy-dev
 ```  
 
-# [Part 3] Developing a Service with Telepresence  
+# [Part 2] Developing a Service with Telepresence  
 
 ## Step 0: Install Telepresence and Connect to Your Cluster  
 
@@ -215,8 +215,7 @@ Once you're satisfied with your changes, deploy the updated service to the clust
 make deploy-dev
 ```  
 
-
-# [Part 2] Scenario: Telepresence Intercept Demo
+# [Part 3] Scenario: Telepresence Intercept Demo
 
 ## **Problem Statement**  
 1. The **Payments Service** currently does not verify whether an order has already been paid, which may lead to **duplicate payments** for the same order.  
@@ -339,6 +338,8 @@ make deploy-dev
 PR based preview environments are used to test the changes before merging them into the main branch. It is used to test new features before they are released. They are especially useful to Product teams, and sales team to demo a particular feature.
 
 We will do the PR based preview environments on our local machine to avoid the hassle of getting a new domain. We will use DNSMASQ on our local machine to create a subdomain for each PR. 
+
+For a remote Kubernetes cluster setup a wildcard DNS entry for the domain you are using. Example: `*.example.com` should point to the CNAME of your IngressController ALB.
 
 ## Step 1: Setup local K8S Cluster and ArgoCD
 
